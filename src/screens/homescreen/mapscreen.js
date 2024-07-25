@@ -1,6 +1,6 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect,useRef } from 'react';
 import { View, Text, StyleSheet, Animated, Dimensions, TextInput, FlatList, Image, TouchableOpacity, KeyboardAvoidingView } from 'react-native'
-import MapView, { PROVIDER_GOOGLE, Marker,Polyline  } from 'react-native-maps';
+import MapView, { PROVIDER_GOOGLE, Marker, Polyline } from 'react-native-maps';
 const { width, height } = Dimensions.get("window")
 import Modal from "react-native-modal";
 import Button from '../../components';
@@ -14,7 +14,7 @@ const API_KEY = 'AIzaSyBV_p4Zd0frLEef7ZDqd_26qC7kqQ5u2u4'
 const Mapscreen = () => {
 
 
-
+    const mapRef = useRef(null);
 
     const [isModalVisible, setModalVisible] = useState(false);
     const [region, setRegion] = useState({
@@ -71,15 +71,31 @@ const Mapscreen = () => {
     const toggleModal = () => {
         setModalVisible(!isModalVisible);
     };
+    const zoomIn = () => {
+        mapRef.current.animateToRegion({
+            ...region,
+            latitudeDelta: region.latitudeDelta * 0.5,
+            longitudeDelta: region.longitudeDelta * 0.5,
+        });
+    };
+
+    const zoomOut = () => {
+        mapRef.current.animateToRegion({
+            ...region,
+            latitudeDelta: region.latitudeDelta * 9,
+            longitudeDelta: region.longitudeDelta * 9,
+        });
+    };
     return (
 
         <View style={styles.container}>
             <Text style={styles.headerText}>Welcome to U Drive</Text>
             <MapView
-                style={styles.map}
-                provider={PROVIDER_GOOGLE}
-                region={region}
-                showsUserLocation={true}
+               ref={mapRef}
+               style={styles.map}
+               provider={PROVIDER_GOOGLE}
+               region={region}
+               showsUserLocation={true}
             >
                 {pickupLocation && (
                     <Marker
@@ -104,6 +120,14 @@ const Mapscreen = () => {
                     />
                 )}
             </MapView>
+            <View style={styles.zoomButtonsContainer}>
+                <TouchableOpacity style={styles.zoomButton} onPress={zoomIn}>
+                    <MaterialIcons name="zoom-in" size={24} color="black" />
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.zoomButton} onPress={zoomOut}>
+                    <MaterialIcons name="zoom-out" size={24} color="black" />
+                </TouchableOpacity>
+            </View>
             <KeyboardAvoidingView
                 behavior={Platform.OS === 'ios' ? 'padding' : null}
 
@@ -116,36 +140,36 @@ const Mapscreen = () => {
                 >
                     <Text onPress={toggleModal}>ok</Text>
                     <GooglePlacesAutocomplete
-                            placeholder='Search Pickup Location'
-                            onPress={(data, details) => handleSelectLocation(data, details, true)}
-                            query={{
-                                key: API_KEY,
-                                language: 'en',
-                            }}
-                            fetchDetails={true}
-                            styles={{
-                                textInputContainer: styles.textInputContainer,
-                                textInput: styles.textInput,
-                                predefinedPlacesDescription: styles.predefinedPlacesDescription,
-                            }}
-                        />
-                        <GooglePlacesAutocomplete
-                            placeholder='Search Dropoff Location'
-                            onPress={(data, details) => handleSelectLocation(data, details, false)}
-                            query={{
-                                key: API_KEY,
-                                language: 'en',
-                            }}
-                            fetchDetails={true}
-                            styles={{
-                                textInputContainer: styles.textInputContainer,
-                                textInput: styles.textInput,
-                                predefinedPlacesDescription: styles.predefinedPlacesDescription,
-                            }}
-                        />
+                        placeholder='Search Pickup Location'
+                        onPress={(data, details) => handleSelectLocation(data, details, true)}
+                        query={{
+                            key: API_KEY,
+                            language: 'en',
+                        }}
+                        fetchDetails={true}
+                        styles={{
+                            textInputContainer: styles.textInputContainer,
+                            textInput: styles.textInput,
+                            predefinedPlacesDescription: styles.predefinedPlacesDescription,
+                        }}
+                    />
+                    <GooglePlacesAutocomplete
+                        placeholder='Search Dropoff Location'
+                        onPress={(data, details) => handleSelectLocation(data, details, false)}
+                        query={{
+                            key: API_KEY,
+                            language: 'en',
+                        }}
+                        fetchDetails={true}
+                        styles={{
+                            textInputContainer: styles.textInputContainer,
+                            textInput: styles.textInput,
+                            predefinedPlacesDescription: styles.predefinedPlacesDescription,
+                        }}
+                    />
                 </Modal>
             </KeyboardAvoidingView>
-            <View style={{ width: width, height: height * 0.45, backgroundColor: "#fff", position: "absolute", top: height * 0.53, bottom: 0, right: 0, left: 0, borderTopEndRadius: 25, borderTopStartRadius: 25, padding: 10 }}>
+            <View style={{ width: width, height: height * 0.30, backgroundColor: "#fff", bottom: 0, right: 0, left: 0, borderTopEndRadius: 25, borderTopStartRadius: 25, padding: 10 }}>
                 <View style={{ width: width, height: height }}>
                     <TouchableOpacity onPress={toggleModal}>
 
@@ -154,36 +178,13 @@ const Mapscreen = () => {
 
                         </View>
                     </TouchableOpacity>
-                    <View style={styles.searchContainer}>
-                        <TextInput
-                            style={styles.searchInput}
-                            placeholder="From?"
-                            placeholderTextColor="#999"
-                            editable={false}
-                        />
-                        <TouchableOpacity style={styles.searchButton}>
-                            <Text style={styles.searchButtonText}>→</Text>
-                        </TouchableOpacity>
 
-                    </View>
-                    <View style={styles.searchContainer}>
-                        <TextInput
-                            style={styles.searchInput}
-                            placeholder="Where to?"
-                            placeholderTextColor="#999"
-                            editable={false}
 
-                        />
-                        <TouchableOpacity style={styles.searchButton}>
-                            <Text style={styles.searchButtonText}>→</Text>
-                        </TouchableOpacity>
-
-                    </View>
-                    {/* <TouchableOpacity style={{ justifyContent: "center", alignItems: "center" }} >
-                            <View style={styles.reView}>
-                                <Text style={styles.reqesttext}>Reqest</Text>
-                            </View>
-                        </TouchableOpacity> */}
+                    <TouchableOpacity onPress={toggleModal} style={{ justifyContent: "center", alignItems: "center", marginVertical: height * 0.03 }} >
+                        <View style={styles.reView}>
+                            <Text style={styles.reqesttext}>Book your Ride</Text>
+                        </View>
+                    </TouchableOpacity>
                 </View>
             </View>
 
@@ -204,7 +205,7 @@ const styles = StyleSheet.create({
     },
     map: {
         width: '100%',
-        height: '50%',
+        height: '65%',
     },
     containerHeader: {
         flex: 1,
