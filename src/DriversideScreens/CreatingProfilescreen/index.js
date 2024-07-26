@@ -3,7 +3,7 @@ import { Dimensions, Image, ScrollView, StyleSheet, Text, TextInput, TouchableOp
 import { calculateFontSize } from '../../config/font'
 import Custombutton from '../../components/Buttoncomponent'
 const { width, height } = Dimensions.get("window")
-function CreatingProfile() {
+function CreatingProfile({navigation}) {
     return (
         <View style={styles.container}>
             <View style={styles.mainCon}>
@@ -28,7 +28,7 @@ function CreatingProfile() {
 
 
 
-            <Custombutton />
+            <Custombutton text={'ok'} onPress={()=>navigation.navigate("btab")}/>
         </View>
     )
 }

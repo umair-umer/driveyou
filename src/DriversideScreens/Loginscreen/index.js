@@ -1,9 +1,9 @@
 import React from 'react'
 import { Dimensions, StyleSheet, Text, View } from 'react-native'
 import { calculateFontSize } from '../../config/font'
+const { width, height } = Dimensions.get("window")
 import Inputcustoms from '../../components/Cutominput'
 import Custombutton from '../../components/Buttoncomponent'
-const { width, height } = Dimensions.get("window")
 
 function DriverLoginScreen({navigation}) {
     return (
