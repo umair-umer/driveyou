@@ -10,11 +10,23 @@ import Vehicleinformaion from '../../DriversideScreens/VehicleInformaion';
 import InappNavigationscreen from '../../DriversideScreens/InAppnavigationscreen';
 import CreatingProfile from '../../DriversideScreens/CreatingProfilescreen';
 import { createBottomTabNavigator } from '@react-navigation/bottom-tabs';
+import { createDrawerNavigator } from '@react-navigation/drawer';
 import MapHome from '../../DriversideScreens/mapscreen';
 import Profile from '../../DriversideScreens/profile';
 import Message from '../../DriversideScreens/message';
 import Navigationroutes from '../../DriversideScreens/navigationtouser';
-
+import Settingscreen from '../../DriversideScreens/Settingscreen';
+import Monthlyincimscreen from '../../DriversideScreens/monthlyIncomscreen';
+import Ratingscreen from '../../DriversideScreens/Ratingscreen';
+import Driverstatuscreen from '../../DriversideScreens/Driverstatuscreen';
+import Reviewscreen from '../../DriversideScreens/Reviewscreen';
+import userOtpscreen from '../../screens/userOtpscreen';
+import Addusernamescreen from '../../DriversideScreens/Usersnamescreens';
+import experiencscreen from '../../DriversideScreens/Experiencescreen';
+// import Budgetscreen from '../../DriversideScreens/budgetscreen';
+import Userumberscreen from '../../screens/Usernumberscreen';
+import Usernamescreen from '../../screens/Usernamescreen';
+import UseraccountScreen from '../../screens/Accountscreen';
 const Stack = createNativeStackNavigator();
 
 const Navigation = () => {
@@ -23,24 +35,35 @@ const Navigation = () => {
     <Stack.Navigator  screenOptions={{
         headerShown: false
       }}>
-      <Stack.Screen name="driverloginscreen" component={DriverLoginScreen} />
-      <Stack.Screen name="accountscreen" component={AccountScreen} />
+      {/* <Stack.Screen name="userotpscreen" component={experiencscreen} /> */}
+      {/* <Stack.Screen name="driverloginscreen" component={DriverLoginScreen} /> */}
+      {/* <Stack.Screen name="accountscreen" component={AccountScreen} />
       <Stack.Screen name="selectcityscreen" component={Selectcityscreen} />
       <Stack.Screen name="driverdetails" component={Drivinglicensescreen} />
       <Stack.Screen name="carinfo" component={Vehicleinformaion} />
       <Stack.Screen name="appnvigation" component={InappNavigationscreen} />
       <Stack.Screen name="profilecreate" component={CreatingProfile} />
+      <Stack.Screen name="monthlyicom" component={Monthlyincimscreen} />
+      <Stack.Screen name="rating" component={Ratingscreen} />
+      <Stack.Screen name="driverstatus" component={Driverstatuscreen} />
+      <Stack.Screen name="reviewscreen" component={Reviewscreen} />
+      
+      
       <Stack.Screen name="btab" component={BotomTabnavigation} />
-      <Stack.Screen name="navroute" component={Navigationroutes} />
+      
+      
+      <Stack.Screen name="navroute" component={Navigationroutes} /> */}
       
 
 
 
 
 
-
-
-      {/* <Stack.Screen name="homeMapscreen" component={Mapscreen} /> */}
+      <Stack.Screen name="usernumber" component={Userumberscreen} />
+      <Stack.Screen name="otpnumber" component={userOtpscreen} />
+      <Stack.Screen name="usernamescreen" component={Usernamescreen} />
+      <Stack.Screen name="usersccountscreen" component={UseraccountScreen} />
+      <Stack.Screen name="homeMapscreen" component={Mapscreen} />
      
 
 
@@ -85,11 +108,16 @@ const BotomTabnavigation = () => {
       >
         <Tab.Screen name="profile" component={Profile} />
         <Tab.Screen name="map" component={MapHome} />
-        <Tab.Screen name="Message" component={Message} />
+      <Stack.Screen name="setting" component={Settingscreen} />
+
+        {/* <Tab.Screen name="Message" component={Message} /> */}
      
       </Tab.Navigator>
  
   );
 }
+
+
+
 
 export default Navigation
